@@ -46,6 +46,16 @@ class DataBase {
         }
     }
     
+    func update(score: Int, forName name: String) {
+        let sql = "UPDATE Student set score = \(score) WHERE name = '\(name)'"
+        var error: UnsafeMutablePointer<Int8>?
+        if sqlite3_exec(db, sql, nil, nil, &error) == SQLITE_OK {
+            print("Update data success")
+        } else {
+            print("Update data fail, error: \(String(cString: error!))")
+        }
+    }
+    
     func selectAll() {
         let sql = "SELECT id, name, score, sex FROM Student" // If add condition: WHERE score > 70 and sex = 'Male'
         var stmt: OpaquePointer?

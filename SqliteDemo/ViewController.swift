@@ -29,6 +29,8 @@ class ViewController: UIViewController {
 //                                   Student(name: "Susan", score: 75.5, sex: "Female")]
 //        db.insert(students: students)
         
+//        db.update(score: 66, forName: "Susan")
+        
 //        db.delete()
         
         db.selectAll()
