@@ -36,10 +36,10 @@ class DataBase {
     func insert(students: [Student]) {
         var sql = ""
         for student in students {
-            sql.append("INSERT INTO Student (name, score, sex) VALUES ('\(student.name)', \(student.score), '\(student.sex)');")
+            sql.append("INSERT INTO Student (name, score, sex) VALUES ('\(student.name)', \(student.score), '\(student.sex)');") // Use "INSERT OR REPLACE INTO ..." to replace data if same primary key
         }
         var error: UnsafeMutablePointer<Int8>?
-        if sqlite3_exec(db, sql, nil, nil, &error) == SQLITE_OK {
+        if sqlite3_exec(db, sql, nil, nil, &error) == SQLITE_OK { // sqlite3_exec = (sqlite3_prepare_v2, sqlite3_step, sqlite3_finalize)
             print("Insert data success")
         } else {
             print("Insert data fail, error: \(String(cString: error!))")
@@ -58,6 +58,7 @@ class DataBase {
                 let sex = String(cString: sqlite3_column_text(stmt, 3))
                 print("id: \(id); name: \(name); score: \(score); sex: \(sex);)")
             }
+            sqlite3_finalize(stmt)
         } else {
             print("Select data fail")
         }
@@ -75,8 +76,12 @@ class DataBase {
     
     func close() {
         if let currentDB = db {
-            sqlite3_close(currentDB)
-            db = nil
+            if sqlite3_close(currentDB) == SQLITE_OK {
+                db = nil
+                print("Close success")
+            } else {
+                print("Close fail")
+            }
         }
     }
 }
