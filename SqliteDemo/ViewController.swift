@@ -24,16 +24,22 @@ class ViewController: UIViewController {
         db.open()
         db.createTable()
         
-//        let students: [Student] = [Student(name: "Sam", score: 80, sex: "Male"),
-//                                   Student(name: "Tom", score: 70, sex: "Variable"),
-//                                   Student(name: "Susan", score: 75.5, sex: "Female")]
-//        db.insert(students: students)
-        
-//        db.update(score: 66, forName: "Susan")
-        
-//        db.delete()
+        db.insert(students: [Student(name: "Sam", score: 80, sex: "Male"),
+                             Student(name: "Tom", score: 70, sex: "Variable"),
+                             Student(name: "Susan", score: 75.5, sex: "Female")])
         
         db.selectAll()
+        
+        db.update(score: 65, forName: "Susan")
+        
+        db.selectAll()
+        
+        db.update2(score: 66, forName: "Susan")
+        
+        db.selectAll()
+        
+        db.delete()
+        
         db.close()
     }
 }

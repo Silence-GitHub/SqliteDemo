@@ -46,13 +46,30 @@ class DataBase {
         }
     }
     
-    func update(score: Int, forName name: String) {
+    func update(score: Double, forName name: String) {
         let sql = "UPDATE Student set score = \(score) WHERE name = '\(name)'"
         var error: UnsafeMutablePointer<Int8>?
         if sqlite3_exec(db, sql, nil, nil, &error) == SQLITE_OK {
             print("Update data success")
         } else {
             print("Update data fail, error: \(String(cString: error!))")
+        }
+    }
+    
+    func update2(score: Double, forName name: String) {
+        let sql = "UPDATE Student set score = ?1 WHERE name = ?2"
+        var stmt: OpaquePointer?
+        if sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK {
+            sqlite3_bind_double(stmt, 1, score)
+            sqlite3_bind_text(stmt, 2, name, -1, nil)
+            if sqlite3_step(stmt) == SQLITE_DONE {
+                print("Update data success")
+            } else {
+                print("Update data fail")
+            }
+            sqlite3_finalize(stmt)
+        } else {
+            print("Update data fail")
         }
     }
     
