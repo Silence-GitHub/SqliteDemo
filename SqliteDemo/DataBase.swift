@@ -24,7 +24,7 @@ class DataBase {
     }
     
     func createTable() {
-        let sql = "CREATE TABLE IF NOT EXISTS Student (id integer PRIMARY KEY AUTOINCREMENT, name text NOT NULL, score real DEFAULT 0, sex text DEFAULT \"Unknown\");"
+        let sql = "CREATE TABLE IF NOT EXISTS Student (id integer PRIMARY KEY AUTOINCREMENT, name text NOT NULL, score real DEFAULT 0, sex text DEFAULT 'Unknown');"
         var error: UnsafeMutablePointer<Int8>?
         if sqlite3_exec(db, sql, nil, nil, &error) == SQLITE_OK {
             print("Create table success")
@@ -47,7 +47,7 @@ class DataBase {
     }
     
     func update(score: Double, forName name: String) {
-        let sql = "UPDATE Student set score = \(score) WHERE name = '\(name)'"
+        let sql = "UPDATE Student SET score = \(score) WHERE name = '\(name)';"
         var error: UnsafeMutablePointer<Int8>?
         if sqlite3_exec(db, sql, nil, nil, &error) == SQLITE_OK {
             print("Update data success")
@@ -57,7 +57,7 @@ class DataBase {
     }
     
     func update2(score: Double, forName name: String) {
-        let sql = "UPDATE Student set score = ?1 WHERE name = ?2"
+        let sql = "UPDATE Student SET score = ?1 WHERE name = ?2;"
         var stmt: OpaquePointer?
         if sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK {
             sqlite3_bind_double(stmt, 1, score)
@@ -74,7 +74,7 @@ class DataBase {
     }
     
     func selectAll() {
-        let sql = "SELECT id, name, score, sex FROM Student" // If add condition: WHERE score > 70 and sex = 'Male'
+        let sql = "SELECT id, name, score, sex FROM Student;" // If add condition: WHERE score > 70 and sex = 'Male'
         var stmt: OpaquePointer?
         if sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK {
             print("Select data success")
@@ -92,7 +92,7 @@ class DataBase {
     }
     
     func delete() {
-        let sql = "DELETE FROM Student" // If add condition: WHERE score < 60 and/or ...
+        let sql = "DELETE FROM Student;" // If add condition: WHERE score < 60 and/or ...
         var error: UnsafeMutablePointer<Int8>?
         if sqlite3_exec(db, sql, nil, nil, &error) == SQLITE_OK {
             print("Delete success")
