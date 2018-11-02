@@ -61,7 +61,7 @@ class DataBase {
         var stmt: OpaquePointer?
         if sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK {
             sqlite3_bind_double(stmt, 1, score)
-            sqlite3_bind_text(stmt, 2, name, -1, nil)
+            sqlite3_bind_text(stmt, 2, (name as NSString).utf8String, -1, nil)
             if sqlite3_step(stmt) == SQLITE_DONE {
                 print("Update data success")
             } else {
@@ -74,7 +74,7 @@ class DataBase {
     }
     
     func selectAll() {
-        let sql = "SELECT id, name, score, sex FROM Student;" // If add condition: WHERE score > 70 and sex = 'Male'
+        let sql = "SELECT id, name, score, sex FROM Student;" // If add condition: WHERE score > 70 AND sex = 'Male'
         var stmt: OpaquePointer?
         if sqlite3_prepare_v2(db, sql, -1, &stmt, nil) == SQLITE_OK {
             print("Select data success")
@@ -92,7 +92,7 @@ class DataBase {
     }
     
     func delete() {
-        let sql = "DELETE FROM Student;" // If add condition: WHERE score < 60 and/or ...
+        let sql = "DELETE FROM Student;" // If add condition: WHERE score < 60 AND/OR ...
         var error: UnsafeMutablePointer<Int8>?
         if sqlite3_exec(db, sql, nil, nil, &error) == SQLITE_OK {
             print("Delete success")
