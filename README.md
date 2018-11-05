@@ -1,3 +1,3 @@
 # SqliteDemo
 
-iOS sqlite demo
+iOS sqlite demo.
